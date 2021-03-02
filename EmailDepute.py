@@ -7,7 +7,7 @@ appli_ver = appli + "V"+ __version__
 import ttk
 import sqlite3
 import tkFileDialog
-from PIL import Image, ImageTk
+#from PIL import Image, ImageTk
 from tkMessageBox import *
 from Tkinter import * 
 from AssembleNationaleFr import *
