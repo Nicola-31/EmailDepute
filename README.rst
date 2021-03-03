@@ -1,4 +1,6 @@
 
+.. image:: Assemblee_nationale_francaise_100X100.png
+
 A quoi ça sert ?
 ================
 
@@ -15,10 +17,12 @@ Les données sont récupérées à partir des données du site de l'assemblée nationna
 Comment l'installer 
 ===================
 
-
-Licence d'utilisation
-=====================
-
+1. En utilisant git : git clone https://https://github.com/Nicola-31/EmailDepute
+2. En téléchargeant le zip 
 
 Lien vers la doc
 ================
+
+Voir le wiki_
+
+.. _wiki: https://github.com/Nicola-31/EmailDepute/wiki/
