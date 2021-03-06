@@ -20,8 +20,11 @@ class Accueil_tk(Tk):
 		self.title(appli_ver)
 		self.assemb = AssembleNationale()
 		self.selectionParti = 'Tous les partis("Tous les partis")'
+		self.pindex_parti = (-1)
 		self.selectionRegion = "Toutes les regions"
+		self.pindex_region = (-1)
 		self.selectionDepart ="Tous les départements"
+		self.pindex_depart = (-1)
 		self.ligne = 1
 		self.colonne = 1
 		self.initialize() #Toujours en dernier (main loop)
@@ -51,7 +54,7 @@ class Accueil_tk(Tk):
 		lb_frame111.grid()
 
 		# Sous boite Adresses mail
-		self.ed_txt = Text(lb_frame111, width=60, height=32, bg='ivory',selectbackground='black', selectforeground='white')
+		self.ed_txt = Text(lb_frame111, width=60, height=30, bg='ivory',selectbackground='black', selectforeground='white')
 		self.ed_txt.pack(padx=5, pady=5)
 		
 		# Boite de sélection des députés
@@ -140,8 +143,8 @@ class Accueil_tk(Tk):
 		self.list_departs.configure(state='disabled')
 
 		# bouton de sortie
-		self.boutonOK=Button(lb_frame121, text="Appliquer la selection", padx=20, command=self.globalSelection_click)
-		self.boutonOK.grid(row=4,column=0,columnspan=3)
+		#self.boutonOK=Button(lb_frame121, text="Appliquer la selection", padx=20, command=self.globalSelection_click)
+		#self.boutonOK.grid(row=4,column=0,columnspan=3)
 		
 		#Bouton de reset de la sélection
 		#self.boutonReset=Button(lb_frame121, text="Re-initialiser la selection", padx=20, command=self.globalSelectionReset_click)
@@ -159,8 +162,9 @@ class Accueil_tk(Tk):
 	def onListPartis_click(self, event):
 		"Traitement de la sélection du parti"
 		index = self.list_partis.curselection()
-		if index != ():
+		if index != () and index != self.pindex_parti:
 			#logging.warning("Liste des valeurs : " + str(self.listPartis))
+			self.pindex_parti = index
 			logging.warning("Index : " + str(index)+ " " + str(type(index)))
 			for ind in index:
 				logging.warning("ind : " + str(ind) + " " + str(type(ind)))
@@ -174,12 +178,14 @@ class Accueil_tk(Tk):
 				self.label1.config(text=res.group(1))
 			else:
 				logging.warning("Recherche infructueuse")
+			self.globalSelection()
 		
 		
 	def onListRegions_click(self, event):
 		"Traitement de la sélection de la région"
 		index = self.list_regions.curselection()
-		if index != ():
+		if index != () and index != self.pindex_region:
+			self.pindex_region = index
 			logging.warning("Liste des valeurs : " + str(self.listRegions))
 			logging.warning("Index : " + str(index)+ " " + str(type(index)))
 			for ind in index:
@@ -187,11 +193,13 @@ class Accueil_tk(Tk):
 				self.selectionRegion = self.listRegions[ind]
 			logging.warning("Selection : " + str(self.selectionRegion)+ " " + str(type(self.selectionRegion)))
 			self.label2.config(text=self.selectionRegion)
+			self.globalSelection()
 		
 	def onListDeparts_click(self, event):
 		"Traitement de la sélection de la région"
 		index = self.list_departs.curselection()
-		if index != ():
+		if index != () and index != self.pindex_depart:
+			self.pindex_depart = index
 			logging.warning("Liste des valeurs : " + str(self.listDeparts))
 			logging.warning("Index : " + str(index)+ " " + str(type(index)))
 			for ind in index:
@@ -199,7 +207,8 @@ class Accueil_tk(Tk):
 				self.selectionDepart = self.listDeparts[ind]
 			logging.warning("Selection : " + str(self.selectionDepart)+ " " + str(type(self.selectionDepart)))
 			self.label2.config(text=self.selectionDepart)
-				
+			self.globalSelection()
+						
 	def regionRadioButton_click(self):
 		logging.warning("Selection d'une region")
 		self.list_regions.configure(state='normal')
@@ -210,13 +219,13 @@ class Accueil_tk(Tk):
 		self.list_regions.configure(state='disabled')
 		self.list_departs.configure(state='normal')
 	
-	def globalSelectionReset_click(self):
+	def globalSelectionReset(self):
 		logging.warning("Reset")
 		logging.warning("Ligne : "+str(self.ligne)+" Colonne : "+str(self.colonne))
 		colnd = str(self.ligne-1)+'.'+str(self.colonne)
 		logging.warning('1.1 to '+ colnd)
 		self.ed_txt.delete('1.0',colnd)
-		self.boutonOK.configure(state='normal')
+		#self.boutonOK.configure(state='normal')
 			
 	def globalReload_click(self):
 		if askokcancel("Recharger les données depuis Internet", "Cette requête prend quelques minutes"):
@@ -267,14 +276,14 @@ class Accueil_tk(Tk):
 #			self.boutonReset.configure(state='normal')
 			self.boutonReload.configure(state='normal')
 	
-	def globalSelection_click(self):
+	def globalSelection(self):
 		"Traitement global de la sélection"
 		logging.warning("Calcul de la selection : radioButtonValue = " + str(self.radioButtonValue.get()))
 		logging.warning("selectionParti = " + self.selectionParti)
 		logging.warning("selectionRegion = " + self.selectionRegion)
 		logging.warning("selectionDepart = " + self.selectionDepart)
 		
-		self.globalSelectionReset_click()
+		self.globalSelectionReset()
 		
 		if self.selectionParti == 'Tous les partis("Tous les partis")':
 			#Pas de sélection sur le parti
@@ -329,16 +338,25 @@ class Accueil_tk(Tk):
 		email = str(row)
 		logging.warning(email+str(type(email))) 
 		self.ligne = 1
+		trouve = 0
 		for email in row:
+			trouve = 1
 			coord = str(self.ligne) + ".1"
-			logging.warning("coord : " + coord)
+			#logging.warning("coord : " + coord)
 			self.ligne=self.ligne+1
 			self.ed_txt.insert(coord, email[0]+";\n")	
 		self.colonne = len(email[0])+2
 		
 #		self.boutonOK.configure(state='disabled')
-
-		showinfo("Selection email", "Sélectionner les adresses qui vous interessent avec la souris,\npuis, utiliser le raccourci CTRL-c pour copier dans le presse papier,\n puis CTRL-v pour le coller ailleurs. ")
+		if self.ligne ==1:
+			coord = str(self.ligne) + ".1"
+			logging.warning("coord : " + coord)
+			self.ed_txt.insert(coord, "Pas de résultat."+"\n")	
+			self.colonne = len("Pas de résultat.")+1
+			self.ligne=self.ligne+1
+			
+		if trouve:
+			showinfo("Selection email", "Sélectionner les adresses qui vous interessent avec la souris,\npuis, utiliser le raccourci CTRL-c pour copier dans le presse papier,\n puis CTRL-v pour le coller ailleurs. ")
 			
 if __name__ == "__main__":
 
