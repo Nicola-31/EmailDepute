@@ -17,8 +17,26 @@ Les données sont récupérées à partir des données du site de l'assemblée nationna
 Comment l'installer 
 ===================
 
-1. En utilisant git : git clone https://https://github.com/Nicola-31/EmailDepute
-2. En téléchargeant le zip 
+Sur windows :
+
+1. Télécharger git sur le site https://git-scm.com/downloads et l'installer
+
+2. Télécharger python 2.7 sur le site https://www.python.org/downloads/release/python-2718/ (fichier : Windows x86-64 MSI installer)
+   et l'installer
+
+3. Créer un répertoire là ou vous voulez installer l'appli et aller dans ce répertoire :
+    - faire un clic droit sur ce répertoire, puis sélectionner "Git bash here" : une fenetre s'ouvre
+    - taper la commande : git clone https://github.com/Nicola-31/EmailDepute pour installer l'appli
+    - Double-cliquer sur le fichier "EmailDepute.py" pour lancer l'application
+
+Sur Linux (debian):
+
+1. Télécharger git : sudo apt-get install git
+
+2. Télécharger python 2.7 : sudo apt-get install python python-tk
+
+3. Taper la commande : git clone https://github.com/Nicola-31/EmailDepute pour installer l'appli
+    - Taper la commande "python EmailDepute.py" pour lancer l'application
 
 Lien vers la doc
 ================
