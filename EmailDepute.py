@@ -242,7 +242,7 @@ class Accueil_tk(Tk):
 			self.list_departs.configure(state='disabled')
 			self.regionButton.configure(state='disabled')
 			self.departButton.configure(state='disabled')
-			self.boutonOK.configure(state='disabled')
+#			self.boutonOK.configure(state='disabled')
 #			self.boutonReset.configure(state='disabled')
 			self.boutonReload.configure(state='disabled')
 			#3.Rechargement des données
@@ -272,7 +272,7 @@ class Accueil_tk(Tk):
 			self.list_partis.configure(state='normal')
 			self.regionButton.configure(state='normal')
 			self.departButton.configure(state='normal')
-			self.boutonOK.configure(state='normal')
+#			self.boutonOK.configure(state='normal')
 #			self.boutonReset.configure(state='normal')
 			self.boutonReload.configure(state='normal')
 	
